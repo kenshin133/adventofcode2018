@@ -4,69 +4,58 @@
 
 def checksum(id):
     length = len(id)
-    i = 0
     #for every char
-    cur = id[i]
-    foundtwo = 0
-    foundthree = 0
     sum = 0
-    while sum < 2:
-        for char in id:
-            cur = char
-            
+    foundthree = 0
+    foundtwo = 0
+    for char in id:
+        found = 0
+        i = 0
+        while i < length - 1:
+            if char == id[i]:
+                found = found + 1
+#                print(str(found) + " " + str(char) + "'s")
+                i = i + 1
+            else:
+                i = i + 1
+        if found == 3 and foundthree == 0:
+            print("found three "+char)
+            foundthree = 1
+        elif found == 2 and foundtwo == 0:
+            print("found two " + char)
+            print("adding to triples : " +str(triples))
+            foundtwo = 1
+    sum=foundthree + foundtwo
+    print("the checksum for " + str(id) + "is " + str(sum))
+    return(foundtwo, foundthree)
 
 
 
 
 
-
-
-
-    #sum = 0
-    ##if we find that the tally contains matches of two or thee we quit with an output of 2,
-    ##otherwise we continue to the end and report 1 or 0
-    ##has it hit two?
-    #print(id)
-    #while sum < 2:
-
-    #    tally = []
-    #    for char in id:
-    #        for char2 in id:
-    #            if char == char2:
-    #                print("found a match" + char + char2)
-    #        #if len(tally) == 0:
-    #        #    tally = [char]
-    #        #elif char == tally[i]:
-    #        #    print("we matched a: " + char)
-    #        #    if
-    #        #else:
-    #        #    print("not matches")
-    #        #    temp = [char]
-    #        #    tally = tally + temp
-    #        #    i = i + 1
-    #print("end of loop tally" + str(tally))
-
-
-    #        #print(char)
-    return(sum)
 
 
 ##initial idea is to have a function that takes in the line, identifies if it matches none, one, or both criteria, and then outputs a checksum of 0-2 based on matches. for efficiency it should check if a match has been found before evaling the if statements to avoid checking for 2x match after finding one
 ##TODO: read in file
-boxes = open("day2input.sample",'r')
+boxes = open("day2input",'r')
 ##TODO: loop through lines
 boxids = boxes.readlines()
 #keep track of the total checksum
 checksumTotal = 0
-
-
+triples = 0
+doubles = 0
 for ids in boxids:
     #list of previous chars catagorized into a list of lists
     tally = []
-    checksum(ids)
     double = 0
     #has it hit three?
     triple = 0
+    print("triples : " + str(triples))
 #    for chars in ids:
-
+    tempdoubles,temptriples = checksum(ids)
+    triples = triples+temptriples
+    doubles = doubles + tempdoubles
+checksumTotal = triples * doubles
+print("the total should be 12")
+print("the total is " + str(checksumTotal))
 ##TODO: evaluate lines char for char against the rest of the line.
